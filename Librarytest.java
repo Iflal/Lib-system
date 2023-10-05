@@ -63,6 +63,8 @@ class Library {
     private List<Member> members;// create list for Member class
     private List<List<Integer>> bookTrans;
     private List<Integer> fines;
+    private Map<Integer, Date> lendingDates;
+    private Map<Integer, Date> dueDates;
 
     // create ArrayList inside the library constractor
     public Library() {
@@ -70,6 +72,8 @@ class Library {
         members = new ArrayList<>();
         bookTrans = new ArrayList<>();
         fines = new ArrayList<>();
+        lendingDates = new HashMap<>();
+        dueDates = new HashMap<>();
 
     }
 
@@ -151,45 +155,104 @@ class Library {
         Member member = searchMember(memberId);// find the member and assign
         Book book = searchBook(bookId); // find the book and assign
 
-        if (member != null && book != null && book.isAvailable()){
+        //using Date and Calendar classes
+        Date lendingDate = new Date();
+        lendingDates.put(bookId, lendingDate);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(lendingDate);
+        calendar.add(Calendar.DAY_OF_MONTH, 14);
+        Date dueDate = calendar.getTime();
+        dueDates.put(bookId, dueDate);
+        // use hashmaps to do
+
+        if (member != null && book != null && book.isAvailable()) {
             book.setAvailable(false);
             bookTrans.get(memberId - 1).add(bookId);
         }
     }
 
-    public void returnBook(int memberId, int bookId, int dayslate){
+    public void returnBook(int memberId, int bookId, int dayslate) {
         Member member = searchMember(memberId);
         Book book = searchBook(bookId);
 
-        if(member != null && book != null&& !book.isAvailable()){
+        if (member != null && book != null && !book.isAvailable()) {
             book.setAvailable(true);
-            bookTrans.get(memberId -1).remove(Integer.valueOf(bookId));
+            bookTrans.get(memberId - 1).remove(Integer.valueOf(bookId));
         }
     }
 
-    public void viewLendingInformation(int memberId){
-        List<Integer> trans = bookTrans.get(memberId -1);
+    public void viewLendingInformation(int memberId) {
+        List<Integer> trans = bookTrans.get(memberId - 1);
         Member member = searchMember(memberId);
 
-        //check the trans value
-        //if there is no such Id member is not lend the "trans" list is empty
-        if(trans.isEmpty() || member ==null){
+        // check the trans value
+        // if there is no such Id member is not lend the "trans" list is empty
+        if (trans.isEmpty() || member == null) {
             System.out.println("No lending information available for this member");
-        }else{
+        } else {
             System.out.println("Lending Information for Member: " + member.getName());
-            for(Integer bookId: trans){
+            for (Integer bookId : trans) {
                 Book book = searchBook(bookId);// fine the book and assign to book object list
-                System.out.println("Book Title: " + book.getTitle() + " ,Author: " + book.getAuthor() );
+                System.out.println("Book Title: " + book.getTitle() + " ,Author: " + book.getAuthor());
             }
         }
 
     }
 
-    public void displayOverdueBooks(){}
+    public void displayOverdueBooks() {
+        for (int i = 0; i < members.size(); i++) {
+            int fine = fines.get(i);
 
+            if (fine > 0) {
+                Member member = members.get(i);
+                List<Integer> trans = bookTrans.get(i);// get the particular transaction of that member
 
+                System.out.println("Member: \n" + "Id: " + member.getMemberId() + "\nName: " + member.getName());
+                System.out.println("Fine : Rs. " + fine);
+
+                // if we member have two transaction loop will run two times
+                // each time that bookId change to the the book he borrow
+                for (Integer bookId : trans) {
+                    Book book = searchBook(bookId);
+                    System.out.println("\nBook Title: " + book.getTitle() + "\nAuthor" + book.getAuthor());
+                }
+            }
+
+            else {
+                System.out.println("There is no Overdue books");
+            }
+        }
+    }
+
+    public int calculateFine(int days) {
+        int fine = 0;
+
+        if (days > 7) {
+            fine = 350 + (days - 7) * 100;
+        } else if (days > 0) {
+            fine = days * 50;
+        }
+
+        return fine;
+    }
 }
 
 public class Librarytest {
 
+    public static void main(String[] args) {
+        Library lib = new Library();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+
+            System.out.println("========Library System Managment========\n\n\n");
+            System.out.println(" Select Choice of Function:\n");
+            System.out.println("1. Add Books \n2. Remove Book \n3. Search Book Information \n4. Display Book Names ");
+            System.out.println(
+                    "5.Lend a Book \n6.Return a Book \n7.View Lending Infromation \n8. Display Overdue Books \n9.Fine Calculation");
+            System.out.println(
+                    "\n--Member Related--\n \n10.Register Member \n11. Remove Member \n12.Search Member Information \n13. Display Member Names");
+        }
+    }
 }
