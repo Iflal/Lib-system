@@ -57,7 +57,7 @@ class Member {
     }
 }
 
-//Class Transaction
+// Class Transaction
 class Transaction {
     private int bookId;
     private int memberId;
@@ -65,6 +65,7 @@ class Transaction {
     private Date borrowedDate;
     private Date dueDate;
 
+    // Transaction construtor
     public Transaction(int bookId, int memberId, Date returnDate, Date borrowedDate, Date dueDate) {
         this.bookId = bookId;
         this.memberId = memberId;
@@ -120,6 +121,7 @@ class Library {
         return members;
     }
 
+    // Sathu------------------------------------------------------------------------
     public void addBook(int id, String title, String author) {
         books.add(new Book(id, title, author));
     }
@@ -133,7 +135,6 @@ class Library {
         // check the book name that provide here.
         // If its here it will remove using "removeIf" function.
         books.removeIf((book) -> book.getTitle().equalsIgnoreCase(bookTitle));
-
     }
 
     public void removeMember(int memberId) {
@@ -154,8 +155,10 @@ class Library {
             }
         }
 
-    }
+    } // -----------------------------------------------------------
+    // ------------------------------------------------------------
 
+    // Wasri------------------------------------------------------------------------
     // find book using Book Id
     public Book searchBook(int bookId) {
         for (Book book : books) {
@@ -209,8 +212,10 @@ class Library {
             memberNames.add(member.getName());
         }
         return memberNames;
-    }
+    } // -----------------------------------------------------------
+      // ------------------------------------------------------------
 
+    // Cuhsera------------------------------------------------------------------------
     public void lendBook(int memberId, int bookId) {
         Member member = searchMember(memberId);// find the member and assign
         Book book = searchBook(bookId); // find the book and assign
@@ -278,6 +283,8 @@ class Library {
             System.out.println();
         }
     }
+    // -----------------------------------------------------------
+    // ------------------------------------------------------------
 
     public void displayOverdueBooks() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// java text package simple date formate
@@ -494,7 +501,7 @@ public class Librarytest {
 
                 // -----------------EXIT----------------
                 case 14:
-                    exit = true;//exit flag
+                    exit = true;// exit flag
                 default:
                     System.out.println("Invalid choice. please try Again");
             }
