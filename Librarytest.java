@@ -57,6 +57,7 @@ class Member {
     }
 }
 
+//Class Transaction
 class Transaction {
     private int bookId;
     private int memberId;
