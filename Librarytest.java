@@ -350,7 +350,7 @@ public class Librarytest {
 
         while (!exit) {
 
-            // ==============
+            // ====================
             // PRINT THE MENU
             System.out.println("========Library System Managment========\n\n\n");
             System.out.println(" Select Choice of Function:\n");
@@ -360,13 +360,13 @@ public class Librarytest {
             System.out.println(
                     "\n--Member Related--\n \n10.Register Member \n11. Remove Member \n12.Search Member Information \n13. Display Member Names");
             System.out.println("14. Quit");
-            // ===============
+            // ====================
 
             // USER CHOICE
             System.out.println("\nEnter your choice: ");
             int choice = scanner.nextInt();
 
-            // =================== choices
+            // =================== choices =====================
             switch (choice) {
                 case 1:
                     scanner.nextLine();
@@ -488,11 +488,12 @@ public class Librarytest {
                         }
                     }
                     break;
-                // ======================
+                // =========================================
+                // =========================================
 
                 // -----------------EXIT----------------
                 case 14:
-                    exit = true;
+                    exit = true;//exit flag
                 default:
                     System.out.println("Invalid choice. please try Again");
             }
